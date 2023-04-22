@@ -1,0 +1,54 @@
+<% content_for :content do %>
+  <div class="container-thin">
+    <header class="navbar navbar-dark navbar-expand-sm py-2 px-3 mt-3 mb-4 bg-ultra-violet rounded">
+      <%= link_to "SO", root_path, class: "h4 mb-0 text-bg text-decoration-none" %>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbar"
+        aria-controls="navbar"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbar">
+        <nav class="navbar-nav me-auto">
+          <div class="nav-item">
+          </div>
+        </nav>
+        <nav class="navbar-nav">
+          <div class="nav-item d-flex align-items-center">
+            <% if current_user.site&.setup? %>
+              <%= link_to "Site", edit_site_path, class: "nav-link" %>
+            <% else %>
+              <%= link_to "Become a writer!", new_site_path, class: "btn btn-sm text-bg-primary rounded" %>
+            <% end %>
+          </div>
+          <div class="nav-item">
+            <%= link_to "Subscriptions", subscriptions_path, class: "nav-link" %>
+          </div>
+          <div class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <%= icon("person-circle", width: "1.3em", height: "1.3em") %>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" style="max-width: 20rem;">
+              <h6 class="dropdown-header text-wrap">Signed in as <strong><%= current_user.email %></strong></h6>
+              <hr class="dropdown-divider">
+              <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "dropdown-item text-muted" %>
+            </ul>
+          </div>
+        </nav>
+      </div>
+    </header>
+  </div>
+  <main class="flex-shrink-0">
+    <div class="container-thin">
+      <%= render "shared/alerts" %>
+      <%= yield %>
+    </div>
+  </main>
+  <%= render "shared/footer" %>
+<% end %>
+<%= render template: "layouts/application" %>

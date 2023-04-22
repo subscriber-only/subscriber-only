@@ -1,0 +1,29 @@
+<% content_for :title, "Sign In" %>
+
+<%= form_for(
+  resource,
+  as: resource_name,
+  url: session_path(resource_name),
+  html: { class: "d-flex flex-column gap-3 mb-3" },
+  data: { turbo: false },
+) do |f| %>
+  <div>
+    <%= f.label :email, class: "form-label" %>
+    <%= f.email_field :email, class: "form-control", autofocus: true, autocomplete: "email" %>
+  </div>
+  <div>
+    <%= f.label :password, class: "form-label" %>
+    <%= f.password_field :password, class: "form-control", autocomplete: "current-password" %>
+  </div>
+  <% if devise_mapping.rememberable? %>
+    <div>
+      <%= f.check_box :remember_me, class: "form-check-input" %>
+      <%= f.label :remember_me, class: "form-check-label" %>
+    </div>
+  <% end %>
+  <%= f.hidden_field :return_to, value: params[:return_to] %>
+  <div>
+    <%= f.submit "Log in", class: "w-100 btn btn-primary" %>
+  </div>
+<% end %>
+<%= render "devise/shared/links" %>

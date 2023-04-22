@@ -1,0 +1,7 @@
+<%= turbo_stream.update "site" do %>
+  <%= render "form", site: @site %>
+<% end %>
+
+<%= turbo_stream.update "plan" do %>
+  <%= render "plan", site: @site %>
+<% end %>

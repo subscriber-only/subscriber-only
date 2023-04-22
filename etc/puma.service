@@ -1,0 +1,21 @@
+[Unit]
+Description=Puma HTTP Server
+After=syslog.target network.target postgresql.service
+Requires=puma.socket
+
+[Service]
+Type=notify
+WatchdogSec=10
+WorkingDirectory=/srv/www/subscriber_only/current
+ExecStart=/srv/www/subscriber_only/current/bin/puma -C /srv/www/subscriber_only/current/config/puma.rb /srv/www/subscriber_only/current/config.ru
+User=www-data
+Group=www-data
+UMask=0002
+Environment=RAILS_ENV=production
+Restart=always
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=puma
+
+[Install]
+WantedBy=multi-user.target

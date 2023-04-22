@@ -1,0 +1,28 @@
+<%# locals: (site:) %>
+
+<div class="vstack gap-4">
+  <div>
+    <h5 class="mb-3">Basic Information</h5>
+    <div class="card">
+      <div class="card-body" id="site">
+        <%= render "form", site: %>
+      </div>
+    </div>
+  </div>
+  <div>
+    <h5 class="mb-3">Subscriptions & Payments</h5>
+    <div class="card">
+      <div class="card-body" id="plan">
+        <%= render "plan", site: %>
+      </div>
+    </div>
+  </div>
+  <div>
+    <h5 class="mb-3">Jekyll Configuration</h5>
+    <div class="card">
+      <div class="card-body" id="jekyll">
+        <%= render "jekyll", site: %>
+      </div>
+    </div>
+  </div>
+</div>

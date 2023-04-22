@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><%= yield(:title) %> | Subscriber Only</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <script src="https://js.stripe.com/v3/" defer></script>
+    <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
+  </head>
+  <body class="h-100 d-flex flex-column">
+    <%= content_for?(:content) ? yield(:content) : yield %>
+  </body>
+</html>

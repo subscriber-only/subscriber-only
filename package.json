@@ -1,0 +1,22 @@
+{
+  "name": "app",
+  "private": "true",
+  "dependencies": {
+    "@hotwired/stimulus": "^3.2.1",
+    "@hotwired/turbo-rails": "^7.2.5",
+    "@popperjs/core": "^2.11.7",
+    "bootstrap": "^5.2.3"
+  },
+  "devDependencies": {
+    "commander": "^10.0.1",
+    "esbuild": "^0.17.8",
+    "glob": "^9.3.2",
+    "sass": "^1.58.2"
+  },
+  "scripts": {
+    "build_js": "bin/build.mjs -o app/assets/builds app/javascript/application.js",
+    "build_css": "sass ./app/assets/stylesheets/application.scss:./app/assets/builds/application.css --no-source-map --load-path=node_modules --color",
+    "build": "yarn build_js -m",
+    "build:css": "yarn build_css -s compressed"
+  }
+}

@@ -1,0 +1,15 @@
+<%# locals: (site:) %>
+
+<% if site.charges_enabled? %>
+  <%= render "plans/form", plan: @site.current_plan || @site.plans.build %>
+<% else %>
+  <div class="text-center">
+    <%= button_to(
+      "Connect with Stripe",
+      merchant_account_path,
+      form: { "data-turbo": false },
+      class: "btn btn-primary",
+      disabled: !site.basic_info?
+    ) %>
+  </div>
+<% end %>

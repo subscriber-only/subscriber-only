@@ -1,0 +1,20 @@
+[Unit]
+Description=GoodJob
+After=syslog.target network.target postgresql.service
+
+[Service]
+Type=notify
+WatchdogSec=10
+WorkingDirectory=/srv/www/subscriber_only/current
+ExecStart=/srv/www/subscriber_only/current/bin/good_job
+User=www-data
+Group=www-data
+UMask=0002
+Environment=RAILS_ENV=production
+Restart=always
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=good_job
+
+[Install]
+WantedBy=multi-user.target

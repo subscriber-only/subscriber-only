@@ -1,0 +1,38 @@
+<% content_for :title, "Edit Subscription" %>
+
+<div class="d-flex vstack gap-4">
+  <section class="hstack">
+    <h3 class="mb-0"><%= @subscription.site.name %></h3>
+    <div class="ms-auto">
+      <% if @subscription.active? %>
+        <p class="mb-0 text-bg-success rounded-pill px-3 py-2"><strong>Subscription</strong> Active</p>
+      <% elsif @subscription.user_canceled? %>
+        <p class="mb-0 text-bg-danger rounded-pill px-3 py-2"><strong>Subscription</strong> Canceled</p>
+      <% end %>
+    </div>
+  </section>
+  <section class="d-flex">
+    <div class="bg-white rounded-pill border px-3 py-2">
+      <strong>Started</strong> <%= @subscription.starts_on.to_date %>
+    </div>
+    <div class="bg-white rounded-pill border px-3 py-2 ms-auto">
+      <strong>
+        <% if @subscription.user_canceled? %>
+          Cancels
+        <% else %>
+          Renews
+        <% end %>
+      </strong>
+      <%= @subscription.renews_on.to_date %>
+    </div>
+  </section>
+  <% unless @subscription.user_canceled? %>
+    <section class="hstack text-bg-secondary border px-4 py-3 rounded">
+      <div class="me-auto">
+        Want to unsubscribe from <%= @subscription.site.name %>?
+      </div>
+      <%= button_to "Unsubscribe", subscription_path(@subscription), method: :delete, class: "btn btn-sm btn-danger" %>
+    </section>
+  <% end %>
+</div>
+

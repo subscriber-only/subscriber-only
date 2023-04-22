@@ -1,0 +1,24 @@
+<% content_for :title, "Subscriptions" %>
+
+<% if @subscriptions.empty? %>
+  <h5 class="text-muted mt-5 text-center">You haven't yet subscribed to any site.</h5>
+<% end %>
+
+<section class="d-flex flex-column gap-3">
+  <% @subscriptions.each do |subscription| %>
+    <div class="card">
+      <div class="card-body hstack">
+        <div>
+          <h5 class="card-title"><%= subscription.site.name %></h5>
+          <h6 class="card-subtitle">
+            <a href="http://<%= subscription.site.domain %>"><%= subscription.site.domain %></a>
+          </h6>
+        </div>
+        <div class="ms-auto">
+          <%= link_to "Manage", edit_subscription_path(subscription), class: "btn btn-outline-primary" %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</section>
+

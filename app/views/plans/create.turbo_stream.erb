@@ -1,0 +1,7 @@
+<%= turbo_stream.update "plan" do %>
+  <%= render "form", plan: @plan %>
+<% end %>
+
+<%= turbo_stream.update "jekyll" do %>
+  <%= render "sites/jekyll", site: @site %>
+<% end %>

@@ -1,0 +1,13 @@
+.flex-center {
+  @extend .align-items-center;
+  @extend .justify-content-center;
+}
+
+.container-thin {
+  @include make-container();
+  max-width: 600px;
+}
+
+.navbar .container-thin {
+  @extend %container-flex-properties;
+}

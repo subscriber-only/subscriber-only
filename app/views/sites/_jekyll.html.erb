@@ -1,0 +1,37 @@
+<%# locals: (site:) %>
+
+<% if site.setup? %>
+  <p>
+    1. Add the <code>jekyll_subscriber_only</code> gem to your Jekyll
+    project's <code>Gemfile</code> — make sure it comes after
+    <code>jekyll-feed</code> if you're using it:
+  </p>
+  <pre class="text-bg-dark rounded px-4"><code>
+group :jekyll_plugins do
+  # gem "jekyll-feed"
+  gem "jekyll_subscriber_only"
+end
+  </code></pre>
+
+  <p>
+    2. Copy the following snippet and paste it at the bottom of
+    project's <code>_config.yml</code>:
+  </p>
+  <pre class="text-bg-dark rounded px-4"><code>
+subscriber_only:
+  public_token: <%= site.public_token %>
+  secret_token: <%= site.secret_token %>
+  </code></pre>
+
+  <p class="mb-0">
+    The <code>secret_token</code> is private and not meant to be shared
+    with anyone. Please ensure it is kept secret.
+  </p>
+<% else %>
+  <p class="text-muted fst-italic mb-0">
+    Setup your Basic Information and Subscriptions & Payments above,
+    before configuring Jekyll.
+  </p>
+<% end %>
+
+

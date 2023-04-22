@@ -1,0 +1,83 @@
+<%= content_for :title, "Subscribe to #{@site.name}" %>
+
+<div class="text-center mb-4">
+  <h3 class="text-muted">Subscribe to</h3>
+  <h1><%= @site.name %></h1>
+</div>
+
+<form
+  class="d-flex flex-column gap-4"
+  data-controller="subscriptions"
+  data-subscriptions-publishable-key-value="<%= stripe_publishable_key %>"
+  data-subscriptions-account-id-value="<%= @site.stripe_account_id %>"
+  data-subscriptions-plan-value="<%= @site.price_lookup.to_json %>"
+  data-subscriptions-selected-billing-cycle-value="yearly"
+  data-action="subscriptions#subscribe"
+>
+  <div
+    class="row row-cols-1 row-cols-sm-2 g-4 text-center"
+    data-controller="radio-cards"
+  >
+    <div class="col">
+      <div class="card h-100" data-radio-cards-target="card">
+        <div class="card-header">Monthly</div>
+        <div class="card-body vstack">
+          <div class="d-flex flex-center flex-grow-1">
+            <h4 class="card-title">
+              <%= @site.current_plan.monthly_price.format %>/month
+            </h4>
+          </div>
+          <div class="mt-auto">
+            <%= radio_button_tag(
+              :billing_cycle,
+              :monthly,
+              false,
+              class: "btn-check",
+              autocomplete: "off",
+              "data-action": "change->subscriptions#changeBillingCycle change->radio-cards#highlight",
+            ) %>
+            <%= label_tag(
+              :billing_cycle_monthly,
+              "Select",
+              class: "btn btn-outline-primary stretched-link",
+            ) %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card border-primary h-100" data-radio-cards-target="card">
+        <div class="card-header text-bg-primary border-primary">Yearly</div>
+        <div class="card-body vstack">
+          <div class="vstack flex-center flex-grow-1">
+            <h4 class="card-title mb-0">
+              <%= @site.current_plan.yearly_price.format %>/year
+            </h4>
+            (<%= (@site.current_plan.yearly_price / 12).format %>/month)
+          </div>
+          <div class="mt-3">
+            <%= radio_button_tag(
+              :billing_cycle,
+              :yearly,
+              true,
+              class: "btn-check",
+              autocomplete: "off",
+              "data-action": "change->subscriptions#changeBillingCycle change->radio-cards#highlight",
+            ) %>
+            <%= label_tag(
+              :billing_cycle_yearly,
+              "Select",
+              class: "btn btn-outline-primary stretched-link",
+            ) %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div data-subscriptions-target="stripeElement"></div>
+  <div class="text-danger" data-subscriptions-target="errorMessage" hidden></div>
+  <button type="submit" class="btn btn-primary btn-lg w-100 d-flex flex-center gap-2">
+    <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true" hidden></span>
+    Subscribe
+  </button>
+</form>

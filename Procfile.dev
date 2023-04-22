@@ -1,0 +1,6 @@
+# web: unset PORT && bin/rails server
+js: yarn build_js --watch
+css: yarn build_css --watch
+mail: mailcatcher --foreground
+stripe: stripe listen --forward-to localhost:3000/webhooks/stripe --color on
+# job: bundle exec good_job start

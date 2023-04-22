@@ -1,0 +1,68 @@
+<%= content_for :title, "Successful Subscription" %>
+
+<section
+  data-controller="confirm"
+  data-confirm-publishable-key-value="<%= stripe_publishable_key %>"
+  data-confirm-account-id-value="<%= @site.stripe_account_id %>"
+>
+  <%# TODO: This should all be moved to a Turbo Frame %>
+
+  <div class="text-center mt-5">
+    <div class="spinner-grow text-secondary" role="status" style="width: 10rem; height: 10rem" data-confirm-target="spinner">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
+  <%# SUCCESS %>
+  <div class="text-center vstack" data-confirm-target="success" hidden>
+    <div class="text-success my-5">
+      <%= icon "check-circle-fill", width: 78, height: 78 %>
+    </div>
+    <div class="mb-5">
+      <h4>You've subscribed to</h4>
+      <h3 class="px-2 fw-bold"><%= @site.name %></h3>
+    </div>
+    <div class="d-flex flex-center gap-2">
+      <% if params[:referer_url] %>
+        <a href="<%= params[:referer_url] %>" class="btn btn-lg btn-primary">Go back to article</a>
+      <% end %>
+      <a href="http://<%= @site.domain %>" class="btn btn-lg btn-secondary">Go to <%= @site.domain %></a>
+    </div>
+  </div>
+
+  <%# ERROR %>
+  <div class="text-center vstack" data-confirm-target="failure" hidden>
+    <div class="text-danger my-5">
+      <%= icon "x-circle-fill", width: 78, height: 78 %>
+    </div>
+    <div class="mb-5">
+      <h4>Payment failed. Please try another payment method.</h4>
+    </div>
+    <div>
+      <%= link_to(
+        "Back to payment page",
+        new_subscription_path(public_token: params[:public_token], referer_url: params[:referer_url]),
+        class: "btn btn-lg btn-primary"
+      ) %>
+    </div>
+  </div>
+
+  <%# OTHER %>
+  <div class="text-center vstack rounded" data-confirm-target="other" hidden>
+    <div class="text-warning my-5">
+      <%= icon "exclamation-circle-fill", width: 78, height: 78 %>
+    </div>
+    <div class="mb-5">
+      <h4>An unknown error happened.</h4>
+      <p>This is not your fault and your credit card wasn't charged. There might be an issue with our payment processor. Please retry subscribing later and contact us if this issue persists.</p>
+    </div>
+    <div>
+      <%= link_to(
+        "Back to payment page",
+        new_subscription_path(public_token: params[:public_token], referer_url: params[:referer_url]),
+        class: "btn btn-lg btn-primary"
+      ) %>
+    </div>
+  </div>
+</section>
+

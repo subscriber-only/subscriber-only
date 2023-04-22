@@ -1,0 +1,63 @@
+@use "sass:map";
+
+@import "bootstrap/scss/functions";
+
+$white:   #fff;
+$blue:    #264653;
+// $indigo:  #907AD6;
+// $purple:  #6f42c1;
+// $pink:    #d63384;
+$red:     #e63946;
+$orange:  #e76f51;
+$yellow:  #e9c46a;
+$green:   #2a9d8f;
+// $teal:    #20c997;
+// $cyan:    #99B2DD;
+$floral-white: #fffcf2;
+$ultra-violet: #4F518C;
+
+$primary:       $orange;
+// $secondary:     $gray-600;
+// $success:       $green;
+// $info:          $cyan;
+// $warning:       $yellow;
+// $danger:        $red;
+// $light:         $gray-100;
+// $dark:          $gray-900;
+
+$min-contrast-ratio: 3;  // Acceptable values for WCAG 2.0 are 3, 4.5 and 7.
+
+$border-radius: .375rem;
+$border-radius-pill: 50rem;
+
+$body-bg: $floral-white;
+$body-color: #252422;
+
+$font-family-sans-serif: 'Hiragino Maru Gothic ProN', Quicksand, Comfortaa,
+  Manjari, 'Arial Rounded MT Bold', Calibri, source-sans-pro, sans-serif;
+
+$input-bg: $white;
+$input-focus-bg: $body-bg;
+$form-select-bg: $white;
+
+$navbar-dark-color: $body-bg;
+$navbar-dark-active-color: $body-bg;
+$navbar-dark-toggler-border-color: rgb($body-bg, .2);
+$navbar-toggler-border-radius: $border-radius;
+
+$btn-border-radius: $border-radius-pill;
+$btn-border-radius-sm: $border-radius-pill;
+$btn-border-radius-lg: $border-radius-pill;
+$btn-padding-x: 1rem;
+$btn-padding-x-sm: .75rem;
+
+$caret-width: .3em;
+$caret-vertical-align: $caret-width * .45;
+
+@import "bootstrap/scss/variables";
+
+$theme-colors: map.merge($theme-colors, (
+  "bg": $body-bg,
+  "floral-white": $floral-white,
+  "ultra-violet": $ultra-violet,
+));

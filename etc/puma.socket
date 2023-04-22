@@ -1,0 +1,14 @@
+[Unit]
+Description=Puma HTTP Server Accept Sockets
+
+[Socket]
+ListenStream=/run/puma.sock
+NoDelay=true
+ReusePort=true
+Backlog=1024
+SocketUser=www-data
+SocketGroup=www-data
+SocketMode=0600
+
+[Install]
+WantedBy=sockets.target
