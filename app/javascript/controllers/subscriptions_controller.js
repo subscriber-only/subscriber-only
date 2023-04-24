@@ -27,12 +27,18 @@ export default class extends Controller {
       appearance: {
         variables: {
           fontFamily: utils.cssVar("--bs-body-font-family"),
+          fontSizeBase: utils.cssVar("--bs-root-font-size"),
+          colorPrimary: utils.cssVar("--bs-primary"),
+          colorText: utils.cssVar("--bs-body-color"),
+          colorDanger: utils.cssVar("--bs-danger"),
+          fontLineHeight: utils.cssVar("--bs-body-line-height"),
         },
         rules: {
           ".Input": {
             boxShadow: "none",
             // $input-btn-padding-y, $input-btn-padding-x
             padding: "0.375rem 0.75rem",
+            lineHeight: utils.cssVar("--bs-body-line-height"),
           },
           ".Input:focus": {
             boxShadow: "none",

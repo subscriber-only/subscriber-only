@@ -43,7 +43,7 @@ class Api::V1::PostsController < ActionController::API
   end
 
   def ensure_setup
-    return if site.setup?
+    return if @site.setup?
 
     render status: :forbidden, json: {
       message: "You need to fully setup your site before being able to " \

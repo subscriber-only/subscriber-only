@@ -1,3 +1,11 @@
+body {
+  letter-spacing: .5px;
+}
+
+input, button, select, optgroup, textarea {
+  letter-spacing: inherit;
+}
+
 .flex-center {
   @extend .align-items-center;
   @extend .justify-content-center;

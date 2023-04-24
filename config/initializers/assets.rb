@@ -12,6 +12,7 @@ Rails.application.config.assets.version = "1.0"
 Rails.application.config.after_initialize do |application|
   application.config.assets.paths = [
     "app/assets/builds",
+    "app/assets/fonts",
     "app/assets/images",
   ]
 end

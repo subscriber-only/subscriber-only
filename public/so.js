@@ -28,9 +28,7 @@ function createPaywall(publicToken, showSignIn = false) {
       background: "#fffcf2",  // $body-bg
       borderRadius: "6px",  // $card-border-radius
       border: "1px solid #dee2e6",  // $card-border-width, $card-border-color
-      fontFamily: `ui-rounded, 'Hiragino Maru Gothic ProN', Quicksand,
-        Comfortaa, Manjari, 'Arial Rounded MT Bold', Calibri, source-sans-pro,
-        sans-serif`,  // $font-family-sans-serif
+      fontFamily: "VAG Rounded Next, system-ui, sans-serif",
       fontSize: "18px",
       padding: "4em 1em",
       "-webkit-font-smoothing": "antialiased",
