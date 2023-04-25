@@ -95,3 +95,5 @@ gem "pg_column_byte_packer", "~> 1.2", github: "vmsp/pg_column_byte_packer",
                                        branch: "fix-missing-enum-type-on-enums"
 
 gem "good_job", "~> 3.15"
+
+gem "postmark-rails", "~> 0.22.1"
