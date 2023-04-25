@@ -1,36 +1,47 @@
 <%# locals: (site:) %>
 
 <% if site.setup? %>
-  <p>
-    1. Add the <code>jekyll_subscriber_only</code> gem to your Jekyll
-    project's <code>Gemfile</code> — make sure it comes after
-    <code>jekyll-feed</code> if you're using it:
-  </p>
+  <p>1. Add the <code>jekyll-subscriber_only</code> gem to your Jekyll project's <code>Gemfile</code>, in the <code>jekyll_plugins</code> group. Make sure it comes after <code>jekyll-feed</code> if you're using it.</p>
   <pre class="text-bg-dark rounded px-4"><code>
 group :jekyll_plugins do
   # gem "jekyll-feed"
-  gem "jekyll_subscriber_only"
+  gem "jekyll-subscriber_only"
 end
   </code></pre>
 
-  <p>
-    2. Copy the following snippet and paste it at the bottom of
-    project's <code>_config.yml</code>:
-  </p>
+  <p>2. Copy the following snippet and paste it at the bottom of site's <code>_config.yml</code>.</p>
   <pre class="text-bg-dark rounded px-4"><code>
 subscriber_only:
   public_token: <%= site.public_token %>
   secret_token: <%= site.secret_token %>
   </code></pre>
 
-  <p class="mb-0">
-    The <code>secret_token</code> is private and not meant to be shared
-    with anyone. Please ensure it is kept secret.
-  </p>
+  <div class="card text-bg-warning mb-3">
+    <div class="card-body d-flex gap-3">
+      <p class="mb-0"><%= icon "exclamation-triangle", width: "1.5em", height: "1.5em" %></p>
+      <p class="mb-0">The <code>secret_token</code> is private and not meant to be shared with anyone. Please ensure it is kept secret.</p>
+    </div>
+  </div>
+
+
+  <p class="fw-bold">And that's it!</p>
+
+  <p>Then, if you want to make a post subscriber-only, just add <code>subscriber_only: true</code> to the post's front matter.</p>
+
+  <pre class="text-bg-dark rounded px-4"><code>
+layout: post
+title: My premium post
+subscriber_only: true
+  </code></pre>
+
+  <p>Note that your posts will only be paywalled when building with <code>JEKYLL_ENV=production</code>.</p>
+
+  <pre class="text-bg-dark rounded px-4 mb-0"><code>
+$ JEKYLL_ENV=production bundle exec jekyll build
+  </code></pre>
 <% else %>
   <p class="text-muted fst-italic mb-0">
-    Setup your Basic Information and Subscriptions & Payments above,
-    before configuring Jekyll.
+    Setup your Basic Information and Subscriptions & Payments above, before configuring Jekyll.
   </p>
 <% end %>
 
