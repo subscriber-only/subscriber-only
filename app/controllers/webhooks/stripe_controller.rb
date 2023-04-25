@@ -8,7 +8,7 @@ class Webhooks::StripeController < ActionController::API
       event = Stripe::Webhook.construct_event(
         request.body.read,
         request.headers["Stripe-Signature"],
-        Rails.application.credentials.dig(:stripe, :webhook_signing_secret),
+        Rails.application.credentials.dig(:stripe, :webhook_secret),
       )
     rescue Stripe::SignatureVerificationError
       head :bad_request
