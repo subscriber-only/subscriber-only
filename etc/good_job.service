@@ -6,7 +6,8 @@ After=syslog.target network.target postgresql.service
 Type=notify
 WatchdogSec=10
 WorkingDirectory=/srv/www/subscriber_only/current
-ExecStart=/srv/www/subscriber_only/current/bin/good_job
+ExecStart=/usr/local/bin/chruby-exec ruby-3.2.1 -- \
+  /srv/www/subscriber_only/current/bin/good_job
 User=www-data
 Group=www-data
 UMask=0002

@@ -7,7 +7,10 @@ Requires=puma.socket
 Type=notify
 WatchdogSec=10
 WorkingDirectory=/srv/www/subscriber_only/current
-ExecStart=/srv/www/subscriber_only/current/bin/puma -C /srv/www/subscriber_only/current/config/puma.rb /srv/www/subscriber_only/current/config.ru
+ExecStart=/usr/local/bin/chruby-exec ruby-3.2.1 -- \
+  /srv/www/subscriber_only/current/bin/puma \
+  -C /srv/www/subscriber_only/current/config/puma.rb \
+  /srv/www/subscriber_only/current/config.ru
 User=www-data
 Group=www-data
 UMask=0002

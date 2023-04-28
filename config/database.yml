@@ -81,6 +81,7 @@ test:
 #
 production:
   <<: *default
+  host: '/run/postgresql'
   database: subscriber_only_production
   username: subscriber_only
-  password: <%= ENV["SUBSCRIBER_ONLY_DATABASE_PASSWORD"] %>
+  password: <%= Rails.application.credentials.dig(:database, :password) %>
