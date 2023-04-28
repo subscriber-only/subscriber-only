@@ -72,6 +72,10 @@ group :development do
   gem "capistrano-rails", "~> 1.6", require: false
   gem "rubocop", "~> 1.49", require: false
   gem "rubocop-rails", "~> 2.19", require: false
+
+  # This is need for Net:SSH -- used by Capistrano -- to support ED25519 keys.
+  gem "bcrypt_pbkdf", require: false
+  gem "ed25519", require: false
 end
 
 group :test do
@@ -97,3 +101,5 @@ gem "pg_column_byte_packer", "~> 1.2", github: "vmsp/pg_column_byte_packer",
 gem "good_job", "~> 3.15"
 
 gem "postmark-rails", "~> 0.22.1"
+
+gem "sd_notify", "~> 0.1.1"
