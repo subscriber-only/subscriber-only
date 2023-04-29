@@ -2,9 +2,9 @@
   <header class="d-flex flex-center mt-3">
     <h3 class="px-3 py-2 rounded text-bg bg-ultra-violet">Subscriber Only</h3>
   </header>
-  <main class="h-100 vstack flex-center">
+  <main class="h-100 d-flex flex-center flex-column px-3">
     <%= render "shared/alerts" %>
-    <div class="card" style="min-width: 24rem">
+    <div class="card w-100" style="max-width: 24rem">
       <div class="card-body">
         <%= yield %>
       </div>
