@@ -12,6 +12,7 @@ User=deploy
 Group=www-data
 UMask=022
 Environment=RAILS_ENV=production
+Environment=MALLOC_ARENA_MAX=2
 Restart=always
 SyslogIdentifier=puma
 
