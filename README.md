@@ -26,7 +26,7 @@ Things you may want to cover:
 
 ``` sh
 adduser deploy
-usermod -aG sudo deploy
+usermod -aG sudo deploy systemd-journal
 ```
 
 2. Copy copy SSH keys to the deploy user's `~/.ssh/authorized_keys` and set the
@@ -80,8 +80,8 @@ sudo mkdir -p /srv/www/subscriber_only/{releases,shared}
    which is the group both Caddy and Puma will run under
 
 ``` sh
-sudo chown -R deploy:www-data /srv/
-chmod -R go-wx+s /srv/
+sudo chown -R deploy:www-data /srv
+sudo chmod -R 2750 /srv
 ```
 
 8. Copy SystemD files and Caddyfile to the server and reload SystemD

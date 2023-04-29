@@ -7,7 +7,7 @@ set :application, "subscriber_only"
 set :repo_url, "git@github.com:subscriber-only/subscriber-only.git"
 
 # Default branch is :master
-# ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
+set :branch, "main"
 
 # Default deploy_to directory is /var/www/my_app_name
 set :deploy_to, "/srv/www/subscriber_only"
@@ -23,7 +23,7 @@ set :deploy_to, "/srv/www/subscriber_only"
 # set :pty, true
 
 # Default value for :linked_files is []
-append :linked_files, "config/database.yml", "config/credentials/production.key"
+append :linked_files, "config/credentials/production.key"
 
 # Default value for linked_dirs is []
 append :linked_dirs, ".bundle", "log", "public/assets", "storage", "tmp/cache",

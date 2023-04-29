@@ -7,17 +7,12 @@ Requires=puma.socket
 Type=notify
 WatchdogSec=10
 WorkingDirectory=/srv/www/subscriber_only/current
-ExecStart=/usr/local/bin/chruby-exec ruby-3.2.1 -- \
-  /srv/www/subscriber_only/current/bin/puma \
-  -C /srv/www/subscriber_only/current/config/puma.rb \
-  /srv/www/subscriber_only/current/config.ru
-User=www-data
+ExecStart=/usr/local/bin/chruby-exec ruby-3.2.1 -- /srv/www/subscriber_only/current/bin/puma -C /srv/www/subscriber_only/current/config/puma.rb /srv/www/subscriber_only/current/config.ru
+User=deploy
 Group=www-data
-UMask=0002
+UMask=022
 Environment=RAILS_ENV=production
 Restart=always
-StandardOutput=syslog
-StandardError=syslog
 SyslogIdentifier=puma
 
 [Install]

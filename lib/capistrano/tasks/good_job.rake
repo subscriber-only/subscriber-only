@@ -4,7 +4,7 @@ namespace :good_job do
   desc "Restart GoodJob"
   task :restart do
     on roles(:app) do
-      execute :systemctl, "restart good_job"
+      execute :sudo, :systemctl, "restart good_job"
     end
   end
 end

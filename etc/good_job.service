@@ -3,18 +3,14 @@ Description=GoodJob
 After=syslog.target network.target postgresql.service
 
 [Service]
-Type=notify
-WatchdogSec=10
+Type=simple
 WorkingDirectory=/srv/www/subscriber_only/current
-ExecStart=/usr/local/bin/chruby-exec ruby-3.2.1 -- \
-  /srv/www/subscriber_only/current/bin/good_job
-User=www-data
+ExecStart=/usr/local/bin/chruby-exec ruby-3.2.1 -- /srv/www/subscriber_only/current/bin/good_job
+User=deploy
 Group=www-data
-UMask=0002
+UMask=022
 Environment=RAILS_ENV=production
 Restart=always
-StandardOutput=syslog
-StandardError=syslog
 SyslogIdentifier=good_job
 
 [Install]

@@ -6,9 +6,9 @@ ListenStream=/run/puma.sock
 NoDelay=true
 ReusePort=true
 Backlog=1024
-SocketUser=www-data
+SocketUser=deploy
 SocketGroup=www-data
-SocketMode=0600
+SocketMode=0660
 
 [Install]
 WantedBy=sockets.target
