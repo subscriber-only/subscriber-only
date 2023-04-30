@@ -1,3 +1,4 @@
+# typed: false
 # frozen_string_literal: true
 
 JsRoutes.setup do |c|

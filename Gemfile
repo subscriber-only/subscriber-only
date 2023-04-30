@@ -76,6 +76,12 @@ group :development do
   # This is need for Net:SSH -- used by Capistrano -- to support ED25519 keys.
   gem "bcrypt_pbkdf", require: false
   gem "ed25519", require: false
+
+  # Sorbet
+  gem "rubocop-sorbet", "~> 0.7.0", require: false
+  gem "sorbet", "~> 0.5.10798", require: false
+  gem "tapioca", "~> 0.11.5", require: false
+  gem "unparser", "~> 0.6.7", require: false
 end
 
 group :test do
@@ -103,3 +109,5 @@ gem "good_job", "~> 3.15"
 gem "postmark-rails", "~> 0.22.1"
 
 gem "sd_notify", "~> 0.1.1"
+
+gem "sorbet-runtime", "~> 0.5.10798"

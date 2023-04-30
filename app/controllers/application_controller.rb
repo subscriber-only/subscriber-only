@@ -1,3 +1,4 @@
+# typed: strict
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
@@ -9,6 +10,7 @@ class ApplicationController < ActionController::Base
 
   protected
 
+  sig { void }
   def authenticate_with_sign_up!
     return if user_signed_in?
 
@@ -16,12 +18,14 @@ class ApplicationController < ActionController::Base
     redirect_to new_user_registration_path
   end
 
+  sig { void }
   def not_found
     raise ActionController::RoutingError, "Not Found"
   end
 
   private
 
+  sig { returns(T.any(String, T::Boolean)) }
   def layout_by_resource
     if devise_controller? && resource_name == :user
       "centered"
@@ -32,6 +36,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  sig { returns(T::Boolean) }
   def storable_location?
     request.get? && is_navigational_format? && !devise_controller? &&
       !request.xhr?

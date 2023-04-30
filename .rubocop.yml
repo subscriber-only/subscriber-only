@@ -2,6 +2,7 @@ inherit_from: .rubocop_base.yml
 
 require:
   - rubocop-rails
+  - rubocop-sorbet
 
 AllCops:
   Exclude:
@@ -10,3 +11,6 @@ AllCops:
 
 Rails/I18nLocaleTexts:
   Enabled: false
+
+Sorbet/RedundantExtendTSig:
+  Enabled: true

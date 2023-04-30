@@ -1,3 +1,4 @@
+# typed: false
 # frozen_string_literal: true
 
 # config valid for current version and patch releases of Capistrano

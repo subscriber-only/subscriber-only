@@ -1,3 +1,4 @@
+# typed: strict
 # frozen_string_literal: true
 
 # == Schema Information
@@ -57,16 +58,19 @@ class Site < ApplicationRecord
   delegate :email, to: :user
   delegate :price_lookup, to: :current_plan
 
+  sig { returns(T::Boolean) }
   def basic_info?
     name.present? && domain.present?
   end
 
+  sig { returns(T::Boolean) }
   def setup?
     basic_info? && charges_enabled? && current_plan.present?
   end
 
   private
 
+  sig { void }
   def generate_public_token
     self.public_token = SecureRandom.base58(16)
   end
