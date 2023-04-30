@@ -81,7 +81,11 @@ sudo mkdir -p /srv/www/subscriber_only/{releases,shared}
 
 ``` sh
 sudo chown -R deploy:www-data /srv
-sudo chmod -R 2750 /srv
+sudo find /srv/www/subscriber_only -type d -exec chmod 2750 {} \;
+sudo find /srv/www/subscriber_only -type f -exec chmod 640 {} \;
+
+sudo chmod 740 /srv/www/subscriber_only/current/bin/puma
+sudo chmod 740 /srv/www/subscriber_only/current/bin/good_job
 ```
 
 8. Copy SystemD files and Caddyfile to the server and reload SystemD

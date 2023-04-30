@@ -37,22 +37,26 @@ class Subscription < ApplicationRecord
        yearly: "yearly"
 
   enum :status,
-       # The Reader has a pending invoice. If the invoice isn't paid and it is
-       # the first payment, the Subscription will become failed_to_activate. If
-       # a renewal invoice is left unpaid, the Subscription will become
-       # inactive.
+       # The Reader has a pending invoice. If the invoice isn't paid and
+       # it is the first payment, the Subscription will become
+       # failed_to_activate. If a renewal invoice is left unpaid, the
+       # Subscription will become inactive.
        payment_pending: "payment_pending",
        # The Reader has full access to the Site.
        active: "active",
-       # The Reader has an active Subscription but has decided to cancel it. It
-       # won't renew at the end of the billing cycle and it will then become
-       # inactive.
+       # The Reader has an active Subscription but has decided to cancel
+       # it. It won't renew at the end of the billing cycle and it will
+       # then become inactive.
+       #
+       # TODO: Remove this state. It should just be 'active'. Add a
+       # 'cancels_at' date or something, instead.
        user_canceled: "user_canceled",
-       # FINAL - The Reader previously had access to the Site but no longer has.
+       # FINAL - The Reader previously had access to the Site but no
+       # longer has.
        # If they want to regain access, a new Subscription must be created.
        inactive: "inactive",
-       # FINAL - The Reader never paid the first invoice and, as such, never had
-       # access to the Site.
+       # FINAL - The Reader never paid the first invoice and, as such,
+       # never had access to the Site.
        failed_to_activate: "failed_to_activate"
 
   belongs_to :reader

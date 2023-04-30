@@ -8,11 +8,31 @@ WorkingDirectory=/srv/www/subscriber_only/current
 ExecStart=/usr/local/bin/chruby-exec ruby-3.2.1 -- /srv/www/subscriber_only/current/bin/good_job
 User=deploy
 Group=www-data
-UMask=022
+UMask=027
 Environment=RAILS_ENV=production
 Environment=MALLOC_ARENA_MAX=2
 Restart=always
 SyslogIdentifier=good_job
+
+DevicePolicy=closed
+LockPersonality=yes
+NoNewPrivileges=yes
+PrivateDevices=yes
+PrivateTmp=yes
+PrivateUsers=yes
+ProtectClock=yes
+ProtectControlGroups=yes
+ProtectHome=yes
+ProtectHostname=yes
+ProtectKernelLogs=yes
+ProtectKernelModules=yes
+ProtectKernelTunables=yes
+ProtectProc=invisible
+ProtectSystem=strict
+RemoveIPC=yes
+RestrictNamespaces=yes
+RestrictRealtime=yes
+RestrictSUIDSGID=yes
 
 [Install]
 WantedBy=multi-user.target

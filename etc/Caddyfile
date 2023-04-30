@@ -3,4 +3,4 @@ app.subscriber-only.com
 root * /srv/www/subscriber_only/current/public
 file_server
 @notFile not file
-reverse_proxy @notFile unix://run/puma.sock
+reverse_proxy @notFile unix//run/puma.sock
