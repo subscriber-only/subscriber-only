@@ -25,10 +25,10 @@ Style/TrailingCommaInArguments:
   EnforcedStyleForMultiline: comma
 
 Style/TrailingCommaInArrayLiteral:
-  EnforcedStyleForMultiline: consistent_comma
+  EnforcedStyleForMultiline: comma
 
 Style/TrailingCommaInHashLiteral:
-  EnforcedStyleForMultiline: consistent_comma
+  EnforcedStyleForMultiline: comma
 
 Layout/CaseIndentation:
   EnforcedStyle: end

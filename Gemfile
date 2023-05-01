@@ -106,8 +106,8 @@ gem "pg_column_byte_packer", "~> 1.2", github: "vmsp/pg_column_byte_packer",
 
 gem "good_job", "~> 3.15"
 
-gem "postmark-rails", "~> 0.22.1"
-
 gem "sd_notify", "~> 0.1.1"
 
 gem "sorbet-runtime", "~> 0.5.10798"
+
+gem "mailjet", "~> 1.7"
