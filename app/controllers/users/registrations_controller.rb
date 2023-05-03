@@ -1,4 +1,3 @@
-# typed: strict
 # frozen_string_literal: true
 
 class Users::RegistrationsController < Devise::RegistrationsController
@@ -11,7 +10,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   # POST /resource
-  sig { void }
   def create
     super do |user|
       Readers.create_reader(user)

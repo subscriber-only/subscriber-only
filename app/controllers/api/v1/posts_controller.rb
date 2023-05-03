@@ -1,4 +1,3 @@
-# typed: false
 # frozen_string_literal: true
 
 class Api::V1::PostsController < ActionController::API
