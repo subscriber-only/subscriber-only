@@ -42,8 +42,10 @@ class Plan < ApplicationRecord
             inclusion: { in: Plan::SUPPORTED_CURRENCIES }
 
   sig do
-    returns({ monthly: { amount: Integer, currency: String },
-              yearly: { amount: Integer, currency: String }, })
+    returns({
+      monthly: { amount: Integer, currency: String },
+      yearly: { amount: Integer, currency: String },
+    })
   end
   def price_lookup
     @price_lookup ||= {

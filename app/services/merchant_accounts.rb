@@ -1,4 +1,4 @@
-# typed: false
+# typed: strict
 # frozen_string_literal: true
 
 module MerchantAccounts
@@ -6,6 +6,7 @@ module MerchantAccounts
 
   delegate :url_helpers, to: "Rails.application.routes", private: true
 
+  sig { params(site: Site).returns(String) }
   def generate_setup_link(site)
     create_account(site)
     generate_account_link(site)
@@ -13,6 +14,7 @@ module MerchantAccounts
 
   private
 
+  sig { params(site: Site).returns(String) }
   def generate_account_link(site)
     account_link = Stripe::AccountLink.create(
       {
@@ -26,6 +28,7 @@ module MerchantAccounts
     account_link.url
   end
 
+  sig { params(site: Site).void }
   def create_account(site)
     return if site.stripe_account_id.present?
 

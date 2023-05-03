@@ -36,5 +36,8 @@ Layout/CaseIndentation:
 Layout/EndAlignment:
   EnforcedStyleAlignWith: variable
 
+Layout/FirstHashElementIndentation:
+  EnforcedStyle: consistent
+
 Layout/MultilineMethodCallIndentation:
   EnforcedStyle: indented
