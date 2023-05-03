@@ -1,7 +1,8 @@
-# typed: false
+# typed: true
 # frozen_string_literal: true
 
 class ApplicationFormBuilder < ActionView::Helpers::FormBuilder
+  sig { params(method: Symbol).returns(T.nilable(String)) }
   def field_errors(method)
     return unless errors?(method)
 
@@ -15,6 +16,7 @@ class ApplicationFormBuilder < ActionView::Helpers::FormBuilder
 
   private
 
+  sig { params(method: Symbol).returns(T::Boolean) }
   def errors?(method)
     return false unless @object.respond_to?(:errors)
 

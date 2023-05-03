@@ -1,4 +1,4 @@
-# typed: false
+# typed: strict
 # frozen_string_literal: true
 
 # == Schema Information
@@ -69,15 +69,17 @@ class Subscription < ApplicationRecord
 
   after_destroy_commit :cancel_subscription, if: -> { Rails.env.development? }
 
+  sig { returns(Stripe::Subscription) }
   def stripe_subscription
     Stripe::Subscription.retrieve(
       stripe_subscription_id,
-      { stripe_account: site.stripe_account_id },
+      { stripe_account: T.must(site).stripe_account_id },
     )
   end
 
   private
 
+  sig { void }
   def ensure_not_already_subscribed
     return unless Subscription.where(site:, reader:).technically_active.exists?
 
@@ -85,11 +87,12 @@ class Subscription < ApplicationRecord
                message: "Active or payment_pending Subscription already exists")
   end
 
+  sig { void }
   def cancel_subscription
     Stripe::Subscription.cancel(
       stripe_subscription_id,
       {},
-      { stripe_account: site.stripe_account_id },
+      { stripe_account: T.must(site).stripe_account_id },
     )
   end
 end

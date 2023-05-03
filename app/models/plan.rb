@@ -27,7 +27,7 @@
 #  fk_rails_...  (site_id => sites.id)
 #
 class Plan < ApplicationRecord
-  SUPPORTED_CURRENCIES = %w[USD EUR CAD].freeze
+  SUPPORTED_CURRENCIES = T.let(%w[USD EUR CAD].freeze, T::Array[String])
 
   monetize :monthly_price_cents, numericality: { greater_than: 0 }
   monetize :yearly_price_cents, numericality: { greater_than: 0 }
@@ -41,6 +41,10 @@ class Plan < ApplicationRecord
             presence: true,
             inclusion: { in: Plan::SUPPORTED_CURRENCIES }
 
+  sig do
+    returns({ monthly: { amount: Integer, currency: String },
+              yearly: { amount: Integer, currency: String }, })
+  end
   def price_lookup
     @price_lookup ||= {
       monthly: {

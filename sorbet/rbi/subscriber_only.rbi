@@ -26,3 +26,8 @@ class ActionController::API
   sig { returns(User) }
   def current_user; end
 end
+
+class ActiveRecord::Base
+  extend Devise::Models
+  # extend MoneyRails::ActiveRecord::Monetizable
+end
