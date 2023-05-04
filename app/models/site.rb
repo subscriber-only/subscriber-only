@@ -17,6 +17,7 @@
 #
 # Indexes
 #
+#  index_sites_on_domain        (domain) UNIQUE
 #  index_sites_on_public_token  (public_token) UNIQUE
 #  index_sites_on_secret_token  (secret_token) UNIQUE
 #  index_sites_on_user_id       (user_id) UNIQUE
@@ -47,8 +48,8 @@ class Site < ApplicationRecord
           dependent: :destroy
 
   validates :name, presence: true
+  validates :domain, presence: true, uniqueness: true
   validates :domain,
-            presence: true,
             format: { with: Site::DOMAIN_REGEX, message: "is invalid" },
             if: -> { Rails.env.production? }
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_23_150238) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_04_234528) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -151,6 +151,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_23_150238) do
     t.string "public_token", null: false
     t.string "secret_token", null: false
     t.string "stripe_account_id", default: "", null: false
+    t.index ["domain"], name: "index_sites_on_domain", unique: true
     t.index ["public_token"], name: "index_sites_on_public_token", unique: true
     t.index ["secret_token"], name: "index_sites_on_secret_token", unique: true
     t.index ["user_id"], name: "index_sites_on_user_id", unique: true
