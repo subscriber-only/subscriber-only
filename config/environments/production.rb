@@ -66,8 +66,12 @@ Rails.application.configure do
 
   config.action_mailer.delivery_method = :mailjet_api
 
-  config.action_mailer.default_url_options = { host: "app.subscriber-only.com" }
+  config.action_mailer.default_url_options = {
+    host: "app.subscriber-only.com",
+    protocol: "https",
+  }
   routes.default_url_options[:host] = "app.subscriber-only.com"
+  routes.default_url_options[:protocol] = "https"
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
