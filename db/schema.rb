@@ -10,14 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_04_234528) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_23_150238) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
   # Custom types defined in this database.
   # Note that some types may not work with other database engines. Be careful if changing database.
-  create_enum "site_merchant_account_status", ["details_pending", "charges_enabled"]
   create_enum "subscription_billing_cycle", ["monthly", "yearly"]
   create_enum "subscription_status", ["payment_pending", "active", "user_canceled", "inactive", "failed_to_activate"]
 
@@ -145,12 +144,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_04_234528) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
-    t.enum "merchant_account_status", default: "details_pending", null: false, enum_type: "site_merchant_account_status"
     t.string "domain", null: false
     t.string "name", null: false
     t.string "public_token", null: false
     t.string "secret_token", null: false
     t.string "stripe_account_id", default: "", null: false
+    t.boolean "charges_enabled", default: false, null: false
+    t.boolean "details_submitted", default: false, null: false
+    t.boolean "payouts_enabled", default: false, null: false
     t.index ["domain"], name: "index_sites_on_domain", unique: true
     t.index ["public_token"], name: "index_sites_on_public_token", unique: true
     t.index ["secret_token"], name: "index_sites_on_secret_token", unique: true

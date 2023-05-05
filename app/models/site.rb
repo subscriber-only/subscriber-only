@@ -4,16 +4,18 @@
 #
 # Table name: sites
 #
-#  id                      :bigint           not null, primary key
-#  domain                  :string           not null
-#  merchant_account_status :enum             default("details_pending"), not null
-#  name                    :string           not null
-#  public_token            :string           not null
-#  secret_token            :string           not null
-#  created_at              :datetime         not null
-#  updated_at              :datetime         not null
-#  stripe_account_id       :string           default(""), not null
-#  user_id                 :bigint           not null
+#  id                :bigint           not null, primary key
+#  charges_enabled   :boolean          default(FALSE), not null
+#  details_submitted :boolean          default(FALSE), not null
+#  domain            :string           not null
+#  name              :string           not null
+#  payouts_enabled   :boolean          default(FALSE), not null
+#  public_token      :string           not null
+#  secret_token      :string           not null
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  stripe_account_id :string           default(""), not null
+#  user_id           :bigint           not null
 #
 # Indexes
 #
@@ -29,10 +31,6 @@
 class Site < ApplicationRecord
   DOMAIN_REGEX =
     /\A[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(\.[a-zA-Z]{2,})+\z/
-
-  enum :merchant_account_status,
-       details_pending: "details_pending",
-       charges_enabled: "charges_enabled"
 
   has_secure_token :secret_token, length: 32
 
@@ -62,8 +60,12 @@ class Site < ApplicationRecord
     name.present? && domain.present?
   end
 
+  def payouts?
+    charges_enabled? && payouts_enabled?
+  end
+
   def setup?
-    basic_info? && charges_enabled? && current_plan.present?
+    basic_info? && details_submitted? && current_plan.present?
   end
 
   private

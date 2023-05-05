@@ -25,9 +25,11 @@ module StripeEvents
     site = Site.find_by(stripe_account_id: account.id)
     return if site.nil?
 
-    return unless account.details_submitted && account.charges_enabled
-
-    site.update!(merchant_account_status: "charges_enabled")
+    stripe.update!(
+      details_submitted: account.details_submitted,
+      charges_enabled: account.charges_enabled,
+      payouts_enabled: account.payouts_enabled,
+    )
   end
 
   def customer_subscription_created(stripe_subscription)
