@@ -18,7 +18,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_23_150238) do
   # Custom types defined in this database.
   # Note that some types may not work with other database engines. Be careful if changing database.
   create_enum "subscription_billing_cycle", ["monthly", "yearly"]
-  create_enum "subscription_status", ["payment_pending", "active", "user_canceled", "inactive", "failed_to_activate"]
+  create_enum "subscription_status", ["payment_pending", "active", "inactive", "failed_to_activate"]
 
   create_table "admins", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -170,6 +170,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_23_150238) do
     t.enum "status", default: "payment_pending", null: false, enum_type: "subscription_status"
     t.string "stripe_customer_id", default: "", null: false
     t.string "stripe_subscription_id", default: "", null: false
+    t.boolean "cancel_at_period_end", default: false, null: false
     t.index ["plan_id"], name: "index_subscriptions_on_plan_id"
     t.index ["reader_id"], name: "index_subscriptions_on_reader_id"
     t.index ["site_id"], name: "index_subscriptions_on_site_id"

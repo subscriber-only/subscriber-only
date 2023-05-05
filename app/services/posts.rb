@@ -16,8 +16,7 @@ module Posts
   end
 
   def readable?(post, reader)
-    Subscription.exists?(
-      reader:, site: post.site, status: %w[active user_canceled],
-    ) || reader&.user&.site == post.site
+    Subscription.exists?(reader:, site: post.site, status: "active") ||
+      reader&.user&.site == post.site
   end
 end

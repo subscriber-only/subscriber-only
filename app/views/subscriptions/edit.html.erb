@@ -6,7 +6,7 @@
     <div class="ms-auto">
       <% if @subscription.active? %>
         <p class="mb-0 text-bg-success rounded-pill px-3 py-2"><strong>Subscription</strong> Active</p>
-      <% elsif @subscription.user_canceled? %>
+      <% elsif @subscription.cancel_at_period_end %>
         <p class="mb-0 text-bg-danger rounded-pill px-3 py-2"><strong>Subscription</strong> Canceled</p>
       <% end %>
     </div>
@@ -17,7 +17,7 @@
     </div>
     <div class="bg-white rounded-pill border px-3 py-2 ms-auto">
       <strong>
-        <% if @subscription.user_canceled? %>
+        <% if @subscription.cancel_at_period_end %>
           Cancels
         <% else %>
           Renews
@@ -26,7 +26,7 @@
       <%= @subscription.renews_on.to_date %>
     </div>
   </section>
-  <% unless @subscription.user_canceled? %>
+  <% unless @subscription.cancel_at_period_end %>
     <section class="hstack text-bg-secondary border px-4 py-3 rounded">
       <div class="me-auto">
         Want to unsubscribe from <%= @subscription.site.name %>?

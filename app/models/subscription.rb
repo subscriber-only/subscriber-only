@@ -6,6 +6,7 @@
 #
 #  id                     :bigint           not null, primary key
 #  billing_cycle          :enum             not null
+#  cancel_at_period_end   :boolean          default(FALSE), not null
 #  renews_on              :datetime
 #  starts_on              :datetime
 #  status                 :enum             default("payment_pending"), not null
@@ -30,8 +31,6 @@
 #  fk_rails_...  (site_id => sites.id)
 #
 class Subscription < ApplicationRecord
-  scope :technically_active, -> { where(status: %w[active user_canceled]) }
-
   enum :billing_cycle,
        monthly: "monthly",
        yearly: "yearly"
@@ -44,13 +43,6 @@ class Subscription < ApplicationRecord
        payment_pending: "payment_pending",
        # The Reader has full access to the Site.
        active: "active",
-       # The Reader has an active Subscription but has decided to cancel
-       # it. It won't renew at the end of the billing cycle and it will
-       # then become inactive.
-       #
-       # TODO: Remove this state. It should just be 'active'. Add a
-       # 'cancels_at' date or something, instead.
-       user_canceled: "user_canceled",
        # FINAL - The Reader previously had access to the Site but no
        # longer has.
        # If they want to regain access, a new Subscription must be created.
@@ -78,7 +70,7 @@ class Subscription < ApplicationRecord
   private
 
   def ensure_not_already_subscribed
-    return unless Subscription.where(site:, reader:).technically_active.exists?
+    return unless Subscription.exists?(site:, reader:, status: "active")
 
     errors.add(:base, :invalid,
                message: "Active or payment_pending Subscription already exists")

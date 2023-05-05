@@ -41,14 +41,16 @@ class SubscriptionsController < ApplicationController
       .first
     return unless subscription
 
-    case subscription.status
-    when "active"
+    if subscription.status == "active"
       redirect_to(
         params[:referer_url] || edit_subscription(subscription),
         allow_other_host: true,
       )
-    when "user_canceled"
-      redirect_to action: :edit, id: subscription.id
+      return
     end
+
+    return unless subscription.cancel_at_period_end
+
+    redirect_to action: :edit, id: subscription.id
   end
 end

@@ -6,7 +6,6 @@ class CreateSubscriptions < ActiveRecord::Migration[7.0]
     create_enum :subscription_status, %w[
       payment_pending
       active
-      user_canceled
       inactive
       failed_to_activate
     ]
@@ -24,6 +23,7 @@ class CreateSubscriptions < ActiveRecord::Migration[7.0]
              default: "payment_pending"
       t.datetime :starts_on
       t.datetime :renews_on
+      t.boolean :cancel_at_period_end, null: false, default: false
       t.string :stripe_customer_id, null: false, default: ""
       t.string :stripe_subscription_id, null: false, default: ""
       t.timestamps

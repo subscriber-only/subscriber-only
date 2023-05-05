@@ -59,7 +59,6 @@ module Plans
         unit_amount: plan.monthly_price_cents,
         currency: plan.monthly_price_currency,
         recurring: { interval: "month" },
-        lookup_key: "monthly_standard_subscription",
       },
       { stripe_account: site.stripe_account_id },
     )
@@ -69,7 +68,6 @@ module Plans
         unit_amount: plan.yearly_price_cents,
         currency: plan.yearly_price_currency,
         recurring: { interval: "year" },
-        lookup_key: "yearly_standard_subscription",
       },
       { stripe_account: site.stripe_account_id },
     )

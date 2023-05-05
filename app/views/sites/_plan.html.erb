@@ -1,9 +1,9 @@
 <%# locals: (site:) %>
 
-<% if site.charges_enabled? %>
+<% if site.details_submitted? %>
   <% unless site.payouts? %>
     <div class="alert alert-warning" role="alert">
-      Your Stripe account is still being verified. If this takes longer than 1 day, please contact Stripe.
+      <strong>Your Stripe account is still being verified.</strong> If this takes longer than one day, please contact Stripe.
     </div>
   <% end %>
   <%= render "plans/form", plan: @site.current_plan || @site.plans.build %>

@@ -29,7 +29,7 @@ module Subscriptions
       { stripe_account: subscription.site.stripe_account_id },
     )
 
-    subscription.update!(status: "user_canceled")
+    subscription.update!(cancel_at_period_end: true)
 
     [:ok, subscription]
   end

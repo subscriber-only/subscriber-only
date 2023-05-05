@@ -25,7 +25,7 @@ module StripeEvents
     site = Site.find_by(stripe_account_id: account.id)
     return if site.nil?
 
-    stripe.update!(
+    site.update!(
       details_submitted: account.details_submitted,
       charges_enabled: account.charges_enabled,
       payouts_enabled: account.payouts_enabled,
@@ -48,11 +48,7 @@ module StripeEvents
 
     subscription.status = case stripe_subscription.status
     when "active"
-      if stripe_subscription.cancel_at_period_end
-        "user_canceled"
-      else
-        "active"
-      end
+      "active"
     when "incomplete", "past_due"
       "payment_pending"
     when "canceled", "unpaid"
@@ -64,6 +60,7 @@ module StripeEvents
     subscription.update!(
       starts_on: Time.zone.at(stripe_subscription.current_period_start),
       renews_on: Time.zone.at(stripe_subscription.current_period_end),
+      cancel_at_period_end: stripe_subscription.cancel_at_period_end,
     )
   end
 end

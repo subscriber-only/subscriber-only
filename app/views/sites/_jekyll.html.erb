@@ -16,13 +16,10 @@ subscriber_only:
   secret_token: <%= site.secret_token %>
   </code></pre>
 
-  <div class="card text-bg-warning mb-3">
-    <div class="card-body d-flex gap-3">
-      <p class="mb-0"><%= icon "exclamation-triangle", width: "1.5em", height: "1.5em" %></p>
-      <p class="mb-0">The <code>secret_token</code> is private and not meant to be shared with anyone. Please ensure it is kept secret.</p>
-    </div>
+  <div class="alert alert-warning d-flex gap-3" role="alert">
+    <p class="mb-0"><%= icon "exclamation-triangle", width: "1.5em", height: "1.5em" %></p>
+    <p class="mb-0">The <code>secret_token</code> is private and not meant to be shared with anyone. Please ensure it is kept secret.</p>
   </div>
-
 
   <p class="fw-bold">And that's it!</p>
 
