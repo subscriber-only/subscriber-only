@@ -4,7 +4,7 @@ class SubscriptionsController < ApplicationController
   prepend_before_action :authenticate_with_sign_up!, only: :new
 
   before_action :set_site_and_reader, only: %i[new confirm]
-  before_action :redirect_on_status, only: :new
+  before_action :redirect_if_subscribed, only: :new
 
   def index
     @subscriptions = current_user.reader
@@ -34,7 +34,7 @@ class SubscriptionsController < ApplicationController
     @reader = current_user.reader
   end
 
-  def redirect_on_status
+  def redirect_if_subscribed
     subscription = Subscription
       .where(site: @site, reader: @reader)
       .order(created_at: :desc)
@@ -43,7 +43,7 @@ class SubscriptionsController < ApplicationController
 
     if subscription.status == "active"
       redirect_to(
-        params[:referer_url] || edit_subscription(subscription),
+        params[:return_to] || edit_subscription(subscription),
         allow_other_host: true,
       )
       return

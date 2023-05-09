@@ -34,4 +34,6 @@ class User < ApplicationRecord
 
   has_one :reader, dependent: :destroy
   has_one :site, dependent: :destroy
+
+  has_many :access_tokens, dependent: :destroy
 end

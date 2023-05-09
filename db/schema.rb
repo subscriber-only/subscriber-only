@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_23_150238) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_06_224029) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -19,6 +19,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_23_150238) do
   # Note that some types may not work with other database engines. Be careful if changing database.
   create_enum "subscription_billing_cycle", ["monthly", "yearly"]
   create_enum "subscription_status", ["payment_pending", "active", "inactive", "failed_to_activate"]
+
+  create_table "access_tokens", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.datetime "last_used_on"
+    t.string "token", null: false
+    t.string "code"
+    t.index ["code"], name: "index_access_tokens_on_code", unique: true
+    t.index ["token"], name: "index_access_tokens_on_token", unique: true
+    t.index ["user_id"], name: "index_access_tokens_on_user_id"
+  end
 
   create_table "admins", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -198,6 +210,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_23_150238) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "access_tokens", "users"
   add_foreign_key "plans", "sites"
   add_foreign_key "posts", "sites"
   add_foreign_key "readers", "users"

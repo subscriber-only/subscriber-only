@@ -10,12 +10,15 @@ Rails.application.routes.draw do
   resource :plan, only: %i[edit create]
   resolve("Plan") { [:plan] }
 
+  resources :authorized_urls, only: :create
+
   resources :subscriptions, except: %i[create update] do
     get "confirm", to: :member
   end
 
   namespace :api do
     namespace :internal do
+      resources :access_tokens, only: :create
       resource :posts, only: :show
       resources :subscriptions, only: :create
     end

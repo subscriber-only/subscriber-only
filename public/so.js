@@ -2,18 +2,51 @@ const HttpStatus = {
   OK: 200,
   UNAUTHORIZED: 401,
   FORBIDDEN: 403,
+  NOT_FOUND: 404,
 };
 
-const BASE_URL = new URL(import.meta.url).origin;
+const IMPORT_URL = new URL(import.meta.url);
+const BASE_URL = IMPORT_URL.origin;
 
+const api_internal_access_tokens_url = `${BASE_URL}/api/internal/access_tokens`;
 const api_internal_posts_url = `${BASE_URL}/api/internal/posts`;
 const new_subscription_url = `${BASE_URL}/subscriptions/new`;
 const new_user_session_url = `${BASE_URL}/auth/sign_in`;
 
 let onLoadExecuted = false;
 
+function readAccessToken() {
+  return document.cookie
+    .split("; ")
+    .find((row) => row.startsWith("access_token="))
+    ?.split("=")[1];
+}
+
+function storeAccessToken(accessToken, expires = null) {
+  const domain =
+    IMPORT_URL.host.includes("localhost") ? "localhost" : "subscriber-only.com";
+  if (expires == null) {
+    expires = new Date();
+    expires.setFullYear(expires.getFullYear() + 1);
+    expires = expires.toUTCString();
+  }
+  // This check on whether "secure" will be set is needed on WebKit-based
+  // browsers because they don't exempt localhost from having "secure" applied.
+  const secure = IMPORT_URL.protocol === "https" ? "secure" : "";
+  document.cookie = `access_token=${accessToken}; domain=${domain}; path=/; ` +
+    `expires=${expires}; samesite=strict; ${secure}`;
+  return accessToken;
+}
+
+function deleteAccessToken() {
+  storeAccessToken("DELETED", "Thu, 01 Jan 1970 00:00:00 UTC");
+}
+
 const e = function createElement(type = "div", props = {}, children = []) {
-  if (arguments.length === 2) children = props;
+  if (props?.constructor !== Object) {
+    children = props;
+    props = {};
+  }
   if (!Array.isArray(children)) children = [children];
   const el = document.createElement(type);
   Object.assign(el, props);
@@ -22,7 +55,36 @@ const e = function createElement(type = "div", props = {}, children = []) {
   return el;
 }
 
-function createPaywall(publicToken, showSignIn = false) {
+function PlaceholderSentence(width) {
+  return e("span", { style: {
+    display: "inline-block",
+    minHeight: "1em",
+    verticalAlign: "middle",
+    cursor: "wait",
+    backgroundColor: "currentColor",
+    opacity: .5,
+    width,
+  }});
+}
+
+function PlaceholderRow(widths) {
+  const style = { display: "flex", gap: "8px" };
+  return e("div", { style }, widths.map(PlaceholderSentence));
+}
+
+function PlaceholderText() {
+  const style = { display: "flex", flexDirection: "column", gap: "8px" };
+
+  return e("div", { style }, [
+    PlaceholderRow(["30%", "70%"]),
+    PlaceholderRow(["10%", "50%", "40%"]),
+    PlaceholderRow(["40%", "60%"]),
+    PlaceholderRow(["20%", "40%", "40%"]),
+    PlaceholderRow(["90%"]),
+  ]);
+}
+
+function Paywall(publicToken, showSignIn = false) {
   const styles = {
     container: {
       background: "#fffcf2",  // $body-bg
@@ -64,41 +126,80 @@ function createPaywall(publicToken, showSignIn = false) {
     },
   };
 
-  const subscribeParams = new URLSearchParams({
-    public_token: publicToken,
-    referer_url: window.location.href,
-  });
-  const signInParams = new URLSearchParams({ return_to: window.location.href });
+  const subscribeLink = new URL(new_subscription_url);
+  subscribeLink.searchParams.set("public_token", publicToken);
+  subscribeLink.searchParams.set("return_to", window.location.href);
+
+  const signInLink = new URL(new_user_session_url);
+  signInLink.searchParams.set("return_to", window.location.href);
 
   return (
     e("aside", { style: styles.container }, [
       e("div", { style: styles.content }, [
         e("h1", { style: styles.header },
           "This post is for paying subscribers only"),
-        e("a", { href: `${new_subscription_url}?${subscribeParams}`,
-                 style: styles.button },
-          "Subscribe now"),
+        e("a", { href: subscribeLink, style: styles.button }, "Subscribe now"),
         showSignIn && e("p", { style: styles.paragraph }, [
           "Already subscribed? ",
-          e("a", { href: `${new_user_session_url}?${signInParams}`,
-                   style: styles.link },
-            "Sign in"),
+          e("a", { href: signInLink, style: styles.link }, "Sign in"),
         ])
       ])
     ])
   );
 }
 
-async function downloadPost(publicToken) {
+async function requestAccessToken(code) {
+  const res = await fetch(api_internal_access_tokens_url, {
+    method: "POST",
+    headers: { "Accept": "application/json" },
+    body: new URLSearchParams({ code }),
+  });
+  return [res.status, res.status === HttpStatus.OK && await res.json()];
+}
+
+async function readOrRequestAccessToken() {
+  const accessToken = readAccessToken();
+  if (accessToken != null) return accessToken;
+
+  const params = new URLSearchParams(window.location.search);
+  const code = params.get("code");
+  if (!code) return;
+
+  const [status, payload] = await requestAccessToken(code);
+  if (status !== HttpStatus.OK) {
+    console.error("Failed to get an access token.", payload);
+    return;
+  }
+  return storeAccessToken(payload.access_token);
+}
+
+async function downloadPost(publicToken, accessToken) {
   const params = new URLSearchParams({
     public_token: publicToken,
     post_url: window.location.href,
   });
   const res = await fetch(`${api_internal_posts_url}?${params}`, {
-    headers: { "Accept": "application/json" },
-    credentials: "include",
+    headers: {
+      "Accept": "application/json",
+      ...(accessToken && { "Authorization": `Bearer ${accessToken}` })
+    }
   });
   return [res.status, res.status === HttpStatus.OK && await res.json()];
+}
+
+async function renderPostOrPaywall(container, publicToken) {
+  const accessToken = await readOrRequestAccessToken();
+
+  const [status, post] = await downloadPost(publicToken, accessToken);
+  if (status === HttpStatus.OK) {
+    container.outerHTML = post.content;
+    return;
+  }
+
+  if (status === HttpStatus.UNAUTHORIZED) deleteAccessToken();
+
+  const paywall = Paywall(publicToken, status !== HttpStatus.FORBIDDEN);
+  container.replaceWith(paywall);
 }
 
 async function onLoad() {
@@ -108,15 +209,10 @@ async function onLoad() {
   const container = document.querySelector("[data-subscriber-only]");
   if (!container) return;
 
-  const publicToken = container.dataset.publicToken;
-  const [status, post] = await downloadPost(publicToken);
+  const placeholder = PlaceholderText();
+  container.replaceWith(placeholder);
 
-  if (status === HttpStatus.UNAUTHORIZED || status === HttpStatus.FORBIDDEN) {
-    const el = createPaywall(publicToken, status !== HttpStatus.FORBIDDEN);
-    container.replaceWith(el);
-  } else {
-    container.outerHTML = post.content;
-  }
+  await renderPostOrPaywall(placeholder, container.dataset.publicToken);
 }
 
 document.addEventListener("turbo:load", onLoad);
