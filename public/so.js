@@ -23,8 +23,6 @@ function readAccessToken() {
 }
 
 function storeAccessToken(accessToken, expires = null) {
-  const domain =
-    IMPORT_URL.host.includes("localhost") ? "localhost" : "subscriber-only.com";
   if (expires == null) {
     expires = new Date();
     expires.setFullYear(expires.getFullYear() + 1);
@@ -33,7 +31,7 @@ function storeAccessToken(accessToken, expires = null) {
   // This check on whether "secure" will be set is needed on WebKit-based
   // browsers because they don't exempt localhost from having "secure" applied.
   const secure = IMPORT_URL.protocol === "https:" ? "secure" : "";
-  document.cookie = `access_token=${accessToken}; domain=${domain}; path=/; ` +
+  document.cookie = `access_token=${accessToken}; path=/; ` +
     `expires=${expires}; samesite=strict; ${secure}`;
   return accessToken;
 }
