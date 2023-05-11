@@ -31,6 +31,13 @@
 /config/credentials/production.key
 
 # Assets
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
 /public/assets
 /app/assets/builds/*
 !/app/assets/builds/.keep
