@@ -26,8 +26,8 @@ set :deploy_to, "/srv/www/subscriber_only"
 append :linked_files, "config/credentials/production.key"
 
 # Default value for linked_dirs is []
-append :linked_dirs, ".bundle", "log", "node_modules", "public/assets",
-       "storage", "tmp/cache", "tmp/sockets", "vendor"
+append :linked_dirs, ".bundle", ".yarn/cache", "node_modules", "public/assets",
+       "storage", "tmp/cache", "vendor"
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
