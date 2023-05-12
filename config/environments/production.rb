@@ -44,7 +44,7 @@ Rails.application.configure do
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   # config.force_ssl = true
 
-  config.session_store :cookie_store, domain: "subscriber-only.com",
+  config.session_store :cookie_store, domain: :all,
                                       httponly: true,
                                       same_site: :lax,
                                       secure: true
