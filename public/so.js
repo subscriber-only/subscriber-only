@@ -28,8 +28,15 @@ function storeAccessToken(accessToken, expires = null) {
     expires.setFullYear(expires.getFullYear() + 1);
     expires = expires.toUTCString();
   }
-  // This check on whether "secure" will be set is needed on WebKit-based
-  // browsers because they don't exempt localhost from having "secure" applied.
+  // Secure is supposed to be ignored on localhost but this exemption isn't
+  // followed on WebKit-based browsers. So, it is applied conditionally.
+  //
+  // Note also that the cookie won't show up in Safari's "Storage" tab, on the
+  // inspector, for unknown reasons. The cookies must be inspected on the
+  // console. E.g.
+  //
+  //   > document.cookie
+  //   < "access_token=..."
   const secure = IMPORT_URL.protocol === "https:" ? "secure" : "";
   document.cookie = `access_token=${accessToken}; path=/; ` +
     `expires=${expires}; samesite=strict; ${secure}`;
