@@ -1,23 +1,22 @@
 # Subscriber Only
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+![Landing](https://0x1.pt/assets/subscriber-only/landing.png)
 
-Things you may want to cover:
+Subscriber Only is a Jekyll plugin that, with a Ruby gem and a couple lines of YAML, enables subscription management, payment processing and access controls on your site. It even works with Jekyll Feed, so your RSS feed will keep working as it is.
 
-* Ruby version
+I launched the service in May 2023 and eventually closed it down due to lack of users. I'm still pretty happy with the way it turned out. I'm open-sourcing it just to show the work I did.
 
-* System dependencies
+Here's some screenshots:
 
-* Configuration
+![PH1](https://0x1.pt/assets/subscriber-only/PH_1.png)
 
-* Database creation
+![PH2](https://0x1.pt/assets/subscriber-only/PH_2.png)
 
-* Database initialization
+![PH3](https://0x1.pt/assets/subscriber-only/PH_3.png)
 
-* How to run the test suite
+If you'd like to know more about the code base, I wrote a blog post with a couple of interesting things I did. Here's the link:
 
-* Services (job queues, cache servers, search engines, etc.)
+<https://0x1.pt/2023/08/08/subscriber-only-a-technical-post-mortem/>
 
 ## Deployment
 
